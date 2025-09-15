@@ -9,5 +9,15 @@ Duplicati job will need to set `--send-http-json-urls` flag. The configured job 
 2. It checks the JSON object for any warning `Data.WarningsActualLength` or error `Data.ErrorsActualLength`.
 3. Send a notification via `webhook` or `apprise` if warning or error detected.
 
-## Screenshot
+## Notification Screenshots
+### Apprise
+
+Apprise does not support embeds easily, will only send text with markdowns
+
 ![](./img/Screenshot.png)
+
+### Discord
+
+Discord webhook url supports embeds natively, with a bit json construction we can display a nicer notification.
+
+![](./img/Screenshot_embeds.png)
