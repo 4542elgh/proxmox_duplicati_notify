@@ -2,7 +2,15 @@ import logging
 import requests
 from Notification.Apprise import Apprise
 from Notification.Discord import Discord
-from Notification.NotificationEnum import NOTIFICATION
+
+from enum import Enum
+
+class NOTIFICATION(Enum):
+    """
+        Enum for NotificationServices This ensures a more robust service type checking
+    """
+    APPRISE = "apprise"
+    DISCORD = "discord"
 
 # Made messaging service more modular
 class Notification:
@@ -27,10 +35,22 @@ class Notification:
         if (notification_service in [e.value for e in NOTIFICATION] and webhook_url.strip()):
             if (notification_service == NOTIFICATION.APPRISE.value):
                 self.service_type = NOTIFICATION.APPRISE
+                self.logger.debug("Notification service is Apprise")
                 self.payload = Apprise(tag=tag, duplicati_url=duplicati_url, webhook_url=webhook_url)
+                self.logger.debug("Payload", {
+                    "tag": tag,
+                    "duplicati_url": duplicati_url,
+                    "webhook_url": webhook_url,
+                    })
             elif (notification_service == NOTIFICATION.DISCORD.value):
                 self.service_type = NOTIFICATION.DISCORD
+                self.logger.debug("Notification service is Discord")
                 self.payload = Discord(duplicati_url=duplicati_url, webhook_url=webhook_url, headers={ "Content-Type": "application/json" })
+                self.logger.debug("Payload", {
+                    "duplicati_url": duplicati_url,
+                    "webhook_url": webhook_url,
+                    "headers": { "Content-Type": "application/json" }
+                    })
         else:
             raise ValueError(f"Notification service is not one of the accepted values: {[e.value for e in NOTIFICATION]}")
     
@@ -38,6 +58,8 @@ class Notification:
     def send(self, msg:str, severity:str = "") -> None:
         if (self.payload is not None):
             self.payload.body = msg
+            self.logger.info("message: %s", msg)
+
             if isinstance(self.payload, Discord):
                 self.payload.severity = severity
             

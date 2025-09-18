@@ -12,4 +12,4 @@ class Extra(BaseModel):
 class DuplicatiBackupResult(BaseModel):
     Data: Data
     Extra: Extra
-    Exception: str
+    Exception: str | None
