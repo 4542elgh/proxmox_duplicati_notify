@@ -28,7 +28,7 @@ def main():
 
     notification = Notification(config.NOTIFICATION_SERVICE, config.WEBHOOK_URL, config.APPRISE_TAG, config.DUPLICATI_URL) # type: ignore
 
-    if (duplicati_obj.Data.ErrorsActualLength > 0):
+    if (duplicati_obj.Data.ErrorsActualLength > 0 and duplicati_obj.Exception is not None):
         logger.info("Found error in backup process: %s", duplicati_obj.Extra.OperationName)
         notification.send(f"{duplicati_obj.Extra.OperationName} task failed for **{duplicati_obj.Extra.backup_name}** with message:\n{"\n".join([line for line in duplicati_obj.Exception.split("\n") if not line.strip().startswith("at")])}", severity="error")
     elif (duplicati_obj.Data.WarningsActualLength > 0):
