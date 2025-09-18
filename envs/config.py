@@ -1,6 +1,7 @@
 import os
 import sys
-from logger import Logging
+from dotenv import load_dotenv
+from Logging.logger import Logging
 
 class Config:
     """
@@ -19,6 +20,7 @@ class Config:
         PORT (int, optional): Port number for the service. Defaults to 8123 if unset or invalid.
     """
     def __init__(self):
+        load_dotenv()
         self._LOG_LEVEL:str = os.getenv("LOG_LEVEL", "").upper() if os.getenv("LOG_LEVEL", "").upper() in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] else "ERROR"
 
         # Create logger in here so we can error and exit if .env is misconfigured

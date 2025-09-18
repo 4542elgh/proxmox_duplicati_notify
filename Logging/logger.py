@@ -24,7 +24,7 @@ class Logging:
         console_handler = logging.StreamHandler()
         console_handler.setLevel(log_level)
         console_handler.setFormatter(formatter)
-        file_handler = logging.FileHandler(os.path.join(os.getcwd(), "log.txt"), mode=mode, encoding='utf-8')
+        file_handler = logging.FileHandler(os.path.join(os.path.dirname(__file__), "log.txt"), mode=mode, encoding='utf-8')
         file_handler.setLevel(log_level)
         file_handler.setFormatter(formatter)
 

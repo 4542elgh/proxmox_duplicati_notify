@@ -1,13 +1,10 @@
 import json
-import config
 import logging
-from model import DuplicatiBackupResult
-from Notification.Notification import Notification
-from config import Config
 from flask import Flask, request
-from dotenv import load_dotenv
+from envs.config import Config
+from Model.model import DuplicatiBackupResult
+from Notification.Notification import Notification
 
-load_dotenv()
 config = Config()
 
 app = Flask(__name__)
